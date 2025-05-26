@@ -7,5 +7,5 @@ export default function Player() {
         <button>Set Name</button>
       </p>
     </section>
-  );
+  )
 }

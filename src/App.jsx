@@ -1,4 +1,4 @@
-import Player from './components/Player.jsx';
+import Player from './components/Player.jsx'
 
 function App() {
   return (
@@ -6,7 +6,7 @@ function App() {
       <Player />
       <div id="challenges"></div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
