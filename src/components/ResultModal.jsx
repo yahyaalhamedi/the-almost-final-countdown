@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 // forwardRef is a React utility that allows you to pass refs down to child components.
 // it optional in react 19.0 and later, but it is a good practice to use it when you need to access the DOM element directly.
@@ -25,7 +26,13 @@ const ResultModal = forwardRef(function ResultModal({ targetTime, timeRemainimg,
   const formattedTimeRemainimg = (timeRemainimg / 1000).toFixed(2)
   const score = Math.round((1 - timeRemainimg / (targetTime * 1000)) * 100)
 
-  return (
+  const portalRoot = document.getElementById('modal')
+
+  // createPortal is a React function that allows you to render a component into a different part of the DOM tree.
+  // In this case, we render the dialog into a specific element with the ID 'modal' which is exist in index.html file.
+  // This is useful for creating modals or overlays that need to be rendered outside the normal React component hierarchy.
+  // It helps in avoiding issues with z-index and overflow styles that can occur when rendering modals directly within the component tree.
+  return createPortal(
     <dialog
       ref={dialog}
       className="result-modal"
@@ -44,7 +51,8 @@ const ResultModal = forwardRef(function ResultModal({ targetTime, timeRemainimg,
       >
         <button>Close</button>
       </form>
-    </dialog>
+    </dialog>,
+    portalRoot,
   )
 })
 
