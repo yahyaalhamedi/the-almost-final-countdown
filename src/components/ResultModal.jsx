@@ -8,7 +8,7 @@ import { forwardRef, useImperativeHandle, useRef } from 'react'
 // such as opening or closing it programmatically.
 // In this case, we use it to show the dialog when the timer expires.
 
-const ResultModal = forwardRef(function ResultModal({ result, targetTime }, ref) {
+const ResultModal = forwardRef(function ResultModal({ targetTime, timeRemainimg, onReset }, ref) {
   const dialog = useRef()
 
   // useImperativeHandle is a React hook that allows you to customize the instance value that is exposed to parent components when using refs.
@@ -21,19 +21,27 @@ const ResultModal = forwardRef(function ResultModal({ result, targetTime }, ref)
     },
   }))
 
+  const userLost = timeRemainimg <= 0
+  const formattedTimeRemainimg = (timeRemainimg / 1000).toFixed(2)
+  const score = Math.round((1 - timeRemainimg / (targetTime * 1000)) * 100)
+
   return (
     <dialog
       ref={dialog}
       className="result-modal"
     >
-      <h2>You {result}</h2>
+      {userLost && <h2>You Lost</h2>}
+      {!userLost && <h2>Your score: {score}</h2>}
       <p>
         The target time was <strong>{targetTime} seconds.</strong>
       </p>
       <p>
-        You stopped the time with <strong>X seconds left.</strong>
+        You stopped the time with <strong>{formattedTimeRemainimg} seconds left.</strong>
       </p>
-      <form method="dialog">
+      <form
+        method="dialog"
+        onSubmit={onReset}
+      >
         <button>Close</button>
       </form>
     </dialog>

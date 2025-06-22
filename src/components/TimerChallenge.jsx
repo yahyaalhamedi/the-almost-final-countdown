@@ -11,7 +11,6 @@ function TimerChallenge({ title, targetTime }) {
 
   if (timeRemainimg <= 0) {
     clearInterval(timerId.current)
-    setTimeRemainimg(targetTime * 1000)
     dialog.current.open()
   }
   // setInterval is used to repeatedly execute a function at specified intervals.
@@ -29,12 +28,15 @@ function TimerChallenge({ title, targetTime }) {
     clearInterval(timerId.current)
   }
 
+  const handleReset = () => setTimeRemainimg(targetTime * 1000)
+
   return (
     <>
       <ResultModal
         ref={dialog}
         targetTime={targetTime}
-        result="lost"
+        timeRemainimg={timeRemainimg}
+        onReset={handleReset}
       />
 
       <section className="challenge">
